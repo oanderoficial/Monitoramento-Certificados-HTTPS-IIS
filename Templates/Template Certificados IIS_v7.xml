@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>579a15dae587403e82c60458aaa2e2da</uuid>
+            <template>Template Certificados IIS</template>
+            <name>Template Certificados IIS</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>6266f5b8a8db4cd9964876f1c3704124</uuid>
+                    <name>Descoberta de sites HTTPS (IIS)</name>
+                    <key>iis.cert.discovery</key>
+                    <delay>3600</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>079ff316c961447391b126808c693458</uuid>
+                            <name>Dias até expirar certificado para {#URL}</name>
+                            <key>iis.cert.expiry[{#URL}]</key>
+                            <delay>3600</delay>
+                            <units>d</units>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>18871a75e0ca43a19519e23e40a8c29f</uuid>
+                                    <expression>last(/Template Certificados IIS/iis.cert.expiry[{#URL}])&lt;=30 and last(/Template Certificados IIS/iis.cert.expiry[{#URL}])&gt;0</expression>
+                                    <name>⚠️ Certificado do site {#URL} vence em {ITEM.LASTVALUE1} dias</name>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
