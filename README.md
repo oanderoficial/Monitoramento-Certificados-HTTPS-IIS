@@ -1,0 +1,1 @@
+# Monitoramento-Inteligente-de-Certificados-HTTPS-no-IIS-com-Zabbix
