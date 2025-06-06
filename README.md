@@ -22,6 +22,10 @@ Implementar um monitoramento automático de certificados HTTPS vinculados aos si
 
 ### Conteúdo do script:
 ```powershell
+param (
+    [string]$url
+)
+
 Import-Module WebAdministration
 
 $dados = @()
@@ -33,8 +37,9 @@ foreach ($site in $sites) {
         $bindingInfo = $binding.bindingInformation
         $parts = $bindingInfo.Split(':')
         $hostname = $parts[2]
+
         if (-not $hostname) { $hostname = "localhost" }
-        $url = "$($protocol)://$($hostname)"
+        $siteUrl = "$($protocol)://$($hostname)"
         $diasRestantes = "N/A"
 
         if ($protocol -eq "https") {
@@ -47,16 +52,24 @@ foreach ($site in $sites) {
                     $store.Open('ReadOnly')
                     $hashString = -join ($certHash | ForEach-Object { '{0:X2}' -f $_ })
                     $cert = $store.Certificates | Where-Object { $_.GetCertHashString() -eq $hashString }
-                    $diasRestantes = ($cert.NotAfter - (Get-Date)).Days
+
+                    if ($cert) {
+                        $diasRestantes = ($cert.NotAfter - (Get-Date)).Days
+                    } else {
+                        $diasRestantes = -2  # Certificado não encontrado
+                    }
+
                     $store.Close()
-                } catch { $diasRestantes = -3 }
+                } catch {
+                    $diasRestantes = -3  # Erro ao acessar loja
+                }
             } else {
-                $diasRestantes = -4
+                $diasRestantes = -4  # Binding sem hash
             }
 
             $dados += @{
                 "{#SITE}"     = $site.Name
-                "{#URL}"      = $url
+                "{#URL}"      = $siteUrl
                 "{#HOSTNAME}" = $hostname
                 "{#DAYSLEFT}" = $diasRestantes
             }
@@ -64,8 +77,24 @@ foreach ($site in $sites) {
     }
 }
 
-$resultado = @{ data = $dados }
-$resultado | ConvertTo-Json -Depth 5
+if ($url) {
+    # Modo consulta por URL
+    try {
+        $json = @{ data = $dados } | ConvertTo-Json -Depth 5
+        $parsed = $json | ConvertFrom-Json
+        $match = $parsed.data | Where-Object { $_.'{#URL}' -eq $url }
+        if ($match) {
+            $match.'{#DAYSLEFT}'
+        } else {
+            -1  # URL não encontrada
+        }
+    } catch {
+        -2  # Erro ao interpretar JSON
+    }
+} else {
+    # Modo discovery
+    @{ data = $dados } | ConvertTo-Json -Depth 5 | Out-String
+}
 ```
 
 ---
@@ -87,9 +116,10 @@ Include=C:\Zabbix\conf\UserParameters.conf
 ```
 
 ### Conteúdo de `UserParameters.conf`:
+
 ```ini
 UserParameter=iis.cert.discovery,powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
-UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -Command "& { $url = '$1'; $result = (powershell -NoProfile -ExecutionPolicy Bypass -File 'C:\Zabbix\scripts\iis_cert_expiry.ps1' | ConvertFrom-Json).data | Where-Object { $_.'{#URL}' -eq $url }; if ($result) { $result.'{#DAYSLEFT}' } else { -1 } }"
+UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1" "$1"
 ```
 
 ### Reiniciar o agente:
