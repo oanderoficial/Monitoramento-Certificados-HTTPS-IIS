@@ -47,7 +47,7 @@ UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -
 ```
 ---
 
-## ✅ 4. Reiniciar o agente Zabbix
+## ✅ 4. Reiniciar o agente Zabbix no servidor
 
 
 ---
