@@ -54,6 +54,7 @@ powershell -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
 ```
 
 ## ✅ 5. Vincule o template (Certificados IIS) no host 
+<img width="578" alt="image" src="https://github.com/user-attachments/assets/80352349-2cf8-4243-b512-0687f394cc8b" />
 
 ## ✅ 6. Reiniciar o agente Zabbix no servidor
 
