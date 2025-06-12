@@ -60,9 +60,3 @@ powershell -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
 
 
 ---
-
-## ✅ 5. Testar localmente (opcional)
-
-```powershell
-powershell -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
-```
