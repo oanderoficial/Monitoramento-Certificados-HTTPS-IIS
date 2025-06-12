@@ -47,7 +47,15 @@ UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -
 ```
 ---
 
-## ✅ 4. Reiniciar o agente Zabbix no servidor
+## ✅ 4. Testar localmente (opcional)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
+```
+
+## ✅ 5. Vincule o template (Certificados IIS) no host 
+
+## ✅ 6. Reiniciar o agente Zabbix no servidor
 
 
 ---
