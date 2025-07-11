@@ -1,12 +1,12 @@
 
 # Guia de Implementação: Monitoramento de Certificados HTTPS no IIS via Zabbix (v5 e v7)
 
-## 📊 Objetivo
+## Objetivo
 Implementar um monitoramento automático de certificados HTTPS vinculados aos sites do IIS, utilizando script PowerShell, Zabbix Agent 2, discovery rule e triggers, compatível com Zabbix 5 e 7.
 
 ---
 
-## 🔗 Requisitos
+## Requisitos
 
 - Host Windows com IIS  
 - Zabbix Agent 2 instalado  
@@ -15,7 +15,7 @@ Implementar um monitoramento automático de certificados HTTPS vinculados aos si
 
 ---
 
-## 📁 1. Preparar o Script PowerShell
+## 1. Preparar o Script PowerShell
 
 ### Caminho do script:
 `C:\Zabbix\scripts\iis_cert_expiry.ps1`
@@ -99,7 +99,7 @@ if ($url) {
 
 ---
 
-## ⚙️ 2. Configurar o Zabbix Agent 2
+## 2. Configurar o Zabbix Agent 2
 
 ### Arquivo de configuração:
 `C:\Zabbix\conf\zabbix_agent2.conf`
@@ -129,7 +129,7 @@ Restart-Service zabbix-agent2
 
 ---
 
-## 🏠 3. Criar o Template no Zabbix
+##  3. Criar o Template no Zabbix
 
 ### 3.1 Criar Template:
 - Nome: `Template Certificados IIS`  
@@ -163,7 +163,7 @@ Restart-Service zabbix-agent2
 
 ---
 
-## 🔄 4. Associar o Template ao Host
+## 4. Associar o Template ao Host
 
 - Vá em `Configuration → Hosts → [seu host]`
 - Aba `Templates`
@@ -171,7 +171,7 @@ Restart-Service zabbix-agent2
 
 ---
 
-## 🔢 5. Testes e Validação
+## 5. Testes e Validação
 
 ### No host Windows:
 ```powershell
@@ -190,7 +190,7 @@ zabbix_get -s <IP_DO_HOST_WINDOWS> -k iis.cert.discovery
 
 ---
 
-## 🔐 Significado dos valores especiais
+## Significado dos valores especiais
 
 | Valor retornado | Significado                                                               |
 |------------------|---------------------------------------------------------------------------|
@@ -202,7 +202,7 @@ zabbix_get -s <IP_DO_HOST_WINDOWS> -k iis.cert.discovery
 
 ---
 
-## ✅ Observações finais
+## Observações finais
 
 - Valor `-2` pode ser ignorado ou gerar trigger informativa
 - Trocas de certificado ou novos sites HTTPS são detectados automaticamente
