@@ -1,5 +1,5 @@
 
-# 🧩 Passo a passo no servidor IIS (Windows Server)
+# Passo a passo no servidor IIS (Windows Server)
 
 ## ✅ 1. Criar pasta e salvar o script
 
