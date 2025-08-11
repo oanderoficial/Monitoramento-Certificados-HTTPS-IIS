@@ -1,7 +1,7 @@
 
 # Passo a passo no servidor IIS (Windows Server)
 
-## ✅ 1. Criar pasta e salvar o script
+##  1. Criar pasta e salvar o script
 
 - Criar a pasta:
   ```
@@ -15,7 +15,7 @@
 
 ---
 
-## ✅ 2. Editar o arquivo de configuração do agente Zabbix
+##  2. Editar o arquivo de configuração do agente Zabbix
 
 **Arquivo:**
 ```
@@ -31,7 +31,7 @@ Include=C:\Zabbix\conf\UserParameters.conf
 
 ---
 
-## ✅ 3. Criar o arquivo UserParameters.conf
+## 3. Criar o arquivo UserParameters.conf
 
 **Caminho:**
 ```
@@ -47,16 +47,16 @@ UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -
 ```
 ---
 
-## ✅ 4. Testar localmente (opcional)
+##  4. Testar localmente (opcional)
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
 ```
 
-## ✅ 5. Vincule o template (Certificados IIS) no host 
+## 5. Vincule o template (Certificados IIS) no host 
 <img width="578" alt="image" src="https://github.com/user-attachments/assets/80352349-2cf8-4243-b512-0687f394cc8b" />
 
-## ✅ 6. Reiniciar o agente Zabbix no servidor
+## 6. Reiniciar o agente Zabbix no servidor
 
 
 ---
