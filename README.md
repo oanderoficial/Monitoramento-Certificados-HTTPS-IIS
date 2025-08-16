@@ -2,7 +2,7 @@
 # Guia de Implementação: Monitoramento de Certificados HTTPS no IIS via Zabbix (v5 e v7)
 
 ## Objetivo
-Implementar um monitoramento automático de certificados HTTPS vinculados aos sites do IIS, utilizando script PowerShell, Zabbix Agent 2, discovery rule e triggers, compatível com Zabbix 5 e 7.
+Implementar um monitoramento automático de certificados HTTPS vinculados aos sites no IIS, utilizando script PowerShell, Zabbix Agent 2, discovery rule e triggers, compatível com Zabbix 5 e 7.
 
 ---
 
