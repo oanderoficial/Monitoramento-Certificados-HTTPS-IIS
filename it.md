@@ -28,7 +28,7 @@ Hostname=NOME_DO_HOST_NO_ZABBIX
 UnsafeUserParameters=1
 Include=C:\Zabbix\conf\UserParameters.conf
 ```
-
+## E depois salvar o arquivo
 ---
 
 ## 3. Abrir o arquivo UserParameters.conf
@@ -39,11 +39,11 @@ C:\Zabbix\conf\UserParameters.conf
 ```
 
 
-**Para a nova versão do script use:**
+**use os seguintes parametros:**
 
 ```ini
 UserParameter=iis.cert.discovery,powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
-UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1" "$1"
+UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -Command "& { $url = '$1'; $result = (powershell -NoProfile -ExecutionPolicy Bypass -File 'C:\Zabbix\scripts\iis_cert_expiry.ps1' | ConvertFrom-Json).data | Where-Object { $_.'{#URL}' -eq $url }; if ($result) { $result.'{#DAYSLEFT}' } else { -1 } }"
 ```
 ---
 
