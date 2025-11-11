@@ -119,7 +119,7 @@ Include=C:\Zabbix\conf\UserParameters.conf
 
 ```ini
 UserParameter=iis.cert.discovery,powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1"
-UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -File "C:\Zabbix\scripts\iis_cert_expiry.ps1" "$1"
+UserParameter=iis.cert.expiry[*],powershell -NoProfile -ExecutionPolicy Bypass -Command "& { $url = '$1'; $result = (powershell -NoProfile -ExecutionPolicy Bypass -File 'C:\Zabbix\scripts\iis_cert_expiry.ps1' | ConvertFrom-Json).data | Where-Object { $_.'{#URL}' -eq $url }; if ($result) { $result.'{#DAYSLEFT}' } else { -1 } }"
 ```
 
 ### Reiniciar o agente:
